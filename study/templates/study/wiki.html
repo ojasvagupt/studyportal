@@ -1,0 +1,27 @@
+{% extends 'study/base.html' %} 
+{% load static %} 
+{% block content %}
+
+<section class='text-center container'>
+    <h2>Search articles in wikipedia</h2>
+    <p>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{forms}}
+        <input class="btn btn-danger" type="submit" value="Submit">
+    </form><br>
+
+    <div class="container">
+        <div class="content-section p-0 mt-5">
+                <div class="custom-header">
+                    <h2>{{title}}</h2>
+                </div><hr>
+            <p class="description m-6 p-3">
+                {{details}}
+            </p>
+            <hr>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
