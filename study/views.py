@@ -145,38 +145,32 @@ def books(request):
        }
     return render(request,'study/books.html',context)
 
-    
 def dictionary(request):
     if request.method=="POST":
         form=studyform(request.POST)
         text=request.POST['text']
-        url='https://api.dictionaryapi.dev/api/v2/entries/en_US/'+text
+        url="https://api.dictionaryapi.dev/api/v2/entries/en_US/"+text
         r=requests.get(url)
         answer=r.json()
-        try:
-            phonetics = answer[0]['phonetics'][0]['text']
-            audio = answer[0]['phonetics'][0]['audio']
-            definition = answer[0]['meanings'][0]['defintions'][0]['definition']
-            example = answer[0]['meanings'][0]['defintions'][0]['example']
-            context = {
+        result_list=[]
+        definition=answer[0]['meanings'][0]['definitions'][0]['definition']
+        context={
                 'form':form,
                 'input':text,
-                'phonetics':phonetics,
-                'audio':audio,
                 'definition':definition,
-                'example':example
             }
-        except:
-            context = {
-                'forms':form,
-                'input':''
-            }
-        return render(request,"study/dictionary.html",context)
-
+        context1={
+            'form':form,
+            'results':result_list
+        }
+        result_list.append(context)
+        return render(request,'study/dictionary.html',context)
     else:
         form=studyform()
-        context = {'forms':form}
-    return render(request,"study/dictionary.html",context)
+        context1={'form':form}
+   
+    return render(request,'study/dictionary.html',context1)
+
 
 
 def wiki(request):
